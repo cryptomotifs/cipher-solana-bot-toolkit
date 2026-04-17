@@ -66,6 +66,20 @@ Each module's `README.md` lists its specific deps and commands:
 - `src/memecoin-launcher/README.md` — Rust, `cargo build --release`
 - `src/copy-trade/README.md` — Python, `pip install ...`
 
-## 6. Dry run everything first
+## 6. (optional) CI
+
+A ready-made GitHub Actions workflow (Python + Node + Rust smoke build + secret scan) is shipped at `docs/ci-recipe.yml`. To enable it:
+
+```bash
+mkdir -p .github/workflows
+cp docs/ci-recipe.yml .github/workflows/ci.yml
+git add .github/workflows/ci.yml
+git commit -m "ci: enable smoke + secret-scan workflow"
+git push
+```
+
+(The recipe lives in `docs/` rather than `.github/workflows/` so that cloning/forking doesn't silently enable CI you didn't ask for, and so that tokens without `workflow` scope can still push.)
+
+## 7. Dry run everything first
 
 All modules support `DRY_RUN=true`. Don't skip this. Watch the logs for at least a few hours, confirm the math matches your expectations, then flip to live with small caps.

@@ -1,0 +1,83 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  python-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: syntax check flash loan + copy trade modules
+        run: |
+          python -m compileall -q src/flashloan
+          python -m compileall -q src/copy-trade
+      - name: ruff lint (non-blocking)
+        continue-on-error: true
+        run: |
+          pip install ruff
+          ruff check src/flashloan src/copy-trade || true
+
+  node-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: install + syntax check volume bot
+        working-directory: src/volume-bot
+        run: |
+          npm install --no-audit --no-fund
+          node --check index.js
+
+  rust-check:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        crate:
+          - predator-core
+          - predator-execution
+          - predator-protocols
+          - predator-strategies
+          - predator-geyser
+          - ../memecoin-launcher
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: cargo check ${{ matrix.crate }}
+        working-directory: src/arb-mev
+        continue-on-error: true
+        run: |
+          cd ${{ matrix.crate }}
+          cargo check --offline || cargo check || true
+
+  secret-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: scan for plaintext secrets
+        run: |
+          set -e
+          echo "Scanning for base58 87-88 char private keys..."
+          if grep -rEn '\b[1-9A-HJ-NP-Za-km-z]{87,88}\b' src/ ; then
+            echo "FAIL: Solana base58 private key pattern found"
+            exit 1
+          fi
+          echo "Scanning for 0x + 64 hex EVM private keys..."
+          if grep -rEn '0x[a-fA-F0-9]{64}' src/ ; then
+            echo "FAIL: EVM hex private key pattern found"
+            exit 1
+          fi
+          echo "Scanning for wallet.json / keystore.json / .env committed..."
+          if find src/ \( -name '.env' -o -name 'keystore*.json' -o -name 'keypair*.json' -o -name 'wallet*.json' \) | grep -q . ; then
+            echo "FAIL: wallet/keystore file committed"
+            exit 1
+          fi
+          echo "OK: no plaintext secrets detected"

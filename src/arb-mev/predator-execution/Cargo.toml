@@ -1,0 +1,39 @@
+[package]
+name = "predator-execution"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+predator-core = { path = "../predator-core" }
+
+# Solana — pinned to 2.2.x [rust_solana_patterns_2026.md s1]
+solana-sdk = "2.2"
+solana-client = "2.2"
+solana-transaction-status = "2.2"
+solana-address-lookup-table-interface = "2.2"
+spl-token = "7"
+spl-associated-token-account = "6"
+
+# Async runtime
+tokio = { version = "1", features = ["full"] }
+futures-util = "0.3"
+
+# HTTP
+reqwest = { version = "0.12", features = ["json"] }
+
+# Serialization
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+bincode = "1"
+base64 = "0.22"
+bs58 = "0.5"
+
+# Error handling [rust_solana_patterns_2026.md s8]
+anyhow = "1"
+thiserror = "2"
+
+# Logging
+tracing = "0.1"
+
+# Randomness — tip account rotation [PREDATOR_ARCHITECTURE_2026.md line 167]
+rand = "0.8"

@@ -1,0 +1,29 @@
+[package]
+name = "predator-geyser"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+predator-core = { path = "../predator-core" }
+solana-sdk = "2.2"
+tokio = { version = "1", features = ["full"] }
+reqwest = { version = "0.12", features = ["json"] }
+reqwest-eventsource = "0.6"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+anyhow = "1"
+thiserror = "2"
+tracing = "0.1"
+futures-util = "0.3"
+tonic = { version = "0.12", features = ["tls", "tls-native-roots"] }
+prost = "0.13"
+
+# Yellowstone gRPC — native <5ms account streaming
+# Versions match the working old bot (client/Cargo.toml): client v13, proto v12
+yellowstone-grpc-client = "13"
+yellowstone-grpc-proto = "12"
+dashmap = "6.1"
+arc-swap = "1"
+rustc-hash = "2"
+bytemuck = { version = "1", features = ["derive"] }
+base64 = "0.22"

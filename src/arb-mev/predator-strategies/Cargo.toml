@@ -1,0 +1,24 @@
+[package]
+name = "predator-strategies"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+predator-core = { path = "../predator-core" }
+predator-protocols = { path = "../predator-protocols" }
+predator-execution = { path = "../predator-execution" }
+
+solana-sdk = "2.2"
+solana-client = "2.2"
+solana-account-decoder = "2.2"
+tokio = { version = "1", features = ["full"] }
+reqwest = { version = "0.12", features = ["json"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+anyhow = "1"
+thiserror = "2"
+tracing = "0.1"
+dashmap = "6.1"
+rustc-hash = "2"
+# [VERIFIED 2026 pyth_post_update_atomic_2026.md s6: hex encoding for VAA data]
+hex = "0.4"

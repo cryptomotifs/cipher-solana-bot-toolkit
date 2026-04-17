@@ -1,0 +1,80 @@
+# Secrets — NEVER commit
+.env
+.env.*
+!.env.example
+secrets/
+*.key
+*.pem
+*keystore*
+*keypair*
+wallet.json
+*wallet*.json
+!wallet_example.json
+id_rsa*
+id_ed25519*
+credentials*
+mnemonic*
+seed*.txt
+passphrase*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+build/
+dist/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Rust
+target/
+Cargo.lock
+**/*.rs.bk
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.next/
+.pnp/
+.pnp.js
+coverage/
+build/
+out/
+
+# Logs
+*.log
+logs/
+bot.pid
+
+# Data
+data/
+*.db
+*.sqlite
+*.sqlite3
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Misc
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local

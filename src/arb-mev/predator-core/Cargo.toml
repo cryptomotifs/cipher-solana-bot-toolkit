@@ -1,0 +1,42 @@
+[package]
+name = "predator-core"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Solana SDK — pinned to 2.2.x [rust_solana_patterns_2026.md s1: "Stay on 2.2.x"]
+solana-sdk = "2.2"
+solana-client = "2.2"
+
+# Async runtime [rust_solana_patterns_2026.md s6]
+tokio = { version = "1", features = ["full"] }
+
+# Serialization
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+toml = "0.8"
+
+# Error handling [rust_solana_patterns_2026.md s8: "thiserror for modules, anyhow for top level"]
+thiserror = "2"
+anyhow = "1"
+
+# Concurrency [low_latency_dataflow_2026.md s2: "DashMap for per-account, ArcSwap for config"]
+dashmap = "6.1"
+arc-swap = "1"
+crossbeam-utils = "0.8"
+
+# Performance [low_latency_dataflow_2026.md s1: "bytemuck zero-copy"]
+bytemuck = { version = "1", features = ["derive"] }
+rustc-hash = "2"
+
+# Logging [code_structure_patterns_2026.md s9: "tracing with #[instrument]"]
+tracing = "0.1"
+
+# Metrics [code_structure_patterns_2026.md s7: "metrics crate, 65ns ingest"]
+prometheus = "0.13"
+
+# Config
+dotenvy = "0.15"
+
+# HTTP client for RPC pool
+reqwest = { version = "0.12", features = ["json"] }

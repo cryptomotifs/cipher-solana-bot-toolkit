@@ -1,0 +1,58 @@
+[package]
+name = "predator-launcher"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "launcher"
+path = "src/main.rs"
+
+[dependencies]
+# Internal workspace crates
+predator-core = { path = "../predator-core" }
+predator-execution = { path = "../predator-execution" }
+predator-dashboard = { path = "../predator-dashboard" }
+
+# Solana — [VERIFIED 2026] rust_solana_patterns_2026.md s1: "Stay on 2.2.x"
+solana-sdk = "2.2"
+solana-client = "2.2"
+
+# Async runtime
+tokio = { version = "1", features = ["full"] }
+
+# HTTP client — [VERIFIED 2026] pumpfun_token_creation_technical_2026.md s7: PumpPortal API
+reqwest = { version = "0.12", features = ["json", "multipart"] }
+
+# Serialization
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+toml = "0.8"
+
+# TX deserialization — [VERIFIED 2026] pumpfun_swap_execution_2026.md s15
+bincode = "1"
+bs58 = "0.5"
+base64 = "0.22"
+
+# Error handling
+anyhow = "1"
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# Time
+chrono = { version = "0.4", features = ["serde"] }
+
+# .env loading
+dotenvy = "0.15"
+
+# Random for concept generation + image colors
+rand = "0.8"
+
+# Image generation — [VERIFIED 2026] pumpfun_token_creation_technical_2026.md s11 Option 3
+image = "0.25"
+rusttype = "0.9"
+
+# Wallet decryption — matches client/src/wallet.rs
+aes-gcm = "0.10"
+scrypt = "0.11"

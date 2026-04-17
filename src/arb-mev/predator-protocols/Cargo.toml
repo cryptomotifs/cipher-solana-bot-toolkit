@@ -1,0 +1,43 @@
+[package]
+name = "predator-protocols"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Internal
+predator-core = { path = "../predator-core" }
+
+# Solana [rust_solana_patterns_2026.md s1: "Stay on 2.2.x"]
+solana-sdk = "2.2"
+solana-client = "2.2"
+solana-account-decoder = "2.2"
+
+# Async
+tokio = { version = "1", features = ["full"] }
+
+# Serialization
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# Error handling
+anyhow = "1"
+thiserror = "2"
+
+# HTTP for Jupiter API
+reqwest = { version = "0.12", features = ["json"] }
+
+# Performance [low_latency_dataflow_2026.md s1: "bytemuck zero-copy"]
+bytemuck = { version = "1", features = ["derive"] }
+
+# Hashing for instruction discriminators
+sha2 = "0.10"
+
+# Hex encoding for Pyth VAA data [VERIFIED 2026 pyth_post_update_atomic_2026.md s6]
+hex = "0.4"
+
+# Logging
+tracing = "0.1"
+
+# Base encoding
+bs58 = "0.5"
+base64 = "0.22"

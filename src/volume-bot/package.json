@@ -1,0 +1,24 @@
+{
+  "name": "sol-volume-bot-v3",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@pump-fun/pump-swap-sdk": "^1.14.1",
+    "@solana/spl-token": "^0.4.14",
+    "@solana/web3.js": "^1.98.4",
+    "axios": "^1.15.0",
+    "bn.js": "^5.2.3",
+    "bs58": "^6.0.0",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "ws": "^8.20.0"
+  },
+  "type": "module"
+}

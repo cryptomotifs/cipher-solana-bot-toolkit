@@ -31,9 +31,11 @@ A free + MIT toolkit of production-grade Solana bot primitives — flash loan ro
 
 ## Related
 
+[![MCPize — cipher-x402-mcp](https://img.shields.io/badge/MCPize-cipher--x402--mcp%20%240%20%2F%20%249%20%2F%20%2429%20%2F%20%2499-00d084)](https://mcpize.com/mcp/cipher-x402-mcp)
+
 - **[cipher-starter](https://github.com/cryptomotifs/cipher-starter)** — solo-dev Solana quant playbook (MIT).
 - **[cipher-solana-wallet-audit](https://github.com/cryptomotifs/cipher-solana-wallet-audit)** — free GitHub Action that fails CI on plaintext Solana private keys. Use it on this repo (it catches the exact class of leak this toolkit's source archive had before scrubbing).
-- **[cipher-x402-mcp](https://github.com/cryptomotifs/cipher-x402-mcp)** — free MCP server exposing Solana + macro tools via x402 USDC payments.
+- **[cipher-x402-mcp](https://github.com/cryptomotifs/cipher-x402-mcp)** — free MCP server exposing Solana + macro tools via x402 USDC payments. Managed hosted plans ($0/$9/$29/$99) on **[MCPize](https://mcpize.com/mcp/cipher-x402-mcp)**.
 
 ## Status
 

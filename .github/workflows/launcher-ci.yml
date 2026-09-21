@@ -1,0 +1,22 @@
+name: Launcher CI
+
+on:
+  push:
+    branches: [main, upgrade/*]
+  pull_request:
+    branches: [main]
+
+jobs:
+  launcher-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: |
+            src/memecoin-launcher
+            src/arb-mev/predator-core
+            src/arb-mev/predator-execution
+      - name: Cargo check launcher
+        run: cargo check --manifest-path src/memecoin-launcher/Cargo.toml

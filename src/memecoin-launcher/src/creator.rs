@@ -17,6 +17,8 @@ use crate::concept::TokenConcept;
 use crate::config::LauncherConfig;
 use crate::tracker::LaunchRecord;
 
+const PUMPPORTAL_TRADE_LOCAL: &str = "https://pumpportal.fun/api/trade-local";
+
 /// Create a token on pump.fun via PumpPortal API.
 ///
 /// Flow:
@@ -82,7 +84,7 @@ pub async fn create_token(
     info!("PumpPortal create request: {} ({})", concept.name, concept.symbol);
 
     let resp = http
-        .post(predator_core::constants::PUMPPORTAL_TRADE_LOCAL)
+        .post(PUMPPORTAL_TRADE_LOCAL)
         .json(&body)
         .send()
         .await

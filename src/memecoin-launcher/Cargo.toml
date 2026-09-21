@@ -9,9 +9,8 @@ path = "src/main.rs"
 
 [dependencies]
 # Internal workspace crates
-predator-core = { path = "../predator-core" }
-predator-execution = { path = "../predator-execution" }
-predator-dashboard = { path = "../predator-dashboard" }
+predator-core = { path = "../arb-mev/predator-core" }
+predator-execution = { path = "../arb-mev/predator-execution" }
 
 # Solana — [VERIFIED 2026] rust_solana_patterns_2026.md s1: "Stay on 2.2.x"
 solana-sdk = "2.2"

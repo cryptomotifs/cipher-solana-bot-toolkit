@@ -8,6 +8,8 @@ use tracing::{info, warn};
 
 use crate::pipeline::LauncherContext;
 
+const PUMPPORTAL_TRADE_LOCAL: &str = "https://pumpportal.fun/api/trade-local";
+
 /// Run the fee collector loop — collects creator fees every N seconds.
 pub async fn run_fee_collector_loop(ctx: Arc<LauncherContext>) {
     let interval = std::time::Duration::from_secs(ctx.config.fee_collect_interval_secs);
@@ -45,7 +47,7 @@ async fn collect_fees(ctx: &LauncherContext) -> anyhow::Result<()> {
     });
 
     let resp = ctx.http
-        .post(predator_core::constants::PUMPPORTAL_TRADE_LOCAL)
+        .post(PUMPPORTAL_TRADE_LOCAL)
         .json(&body)
         .send()
         .await?;

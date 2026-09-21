@@ -87,16 +87,6 @@ async fn main() -> Result<()> {
     // Build Jito submitter
     let jito = Arc::new(predator_execution::JitoSubmitter::new());
 
-    // Build Telegram alerter
-    let bot_config = predator_core::BotConfig::load("config.toml")?;
-    let alerter = predator_dashboard::alerts::TelegramAlerter::new(
-        &bot_config.dashboard,
-        http.clone(),
-    );
-    if alerter.is_some() {
-        info!("Telegram alerter: ACTIVE");
-    }
-
     // Build tracker
     let tracker = Arc::new(tokio::sync::Mutex::new(
         tracker::LauncherPnL::load(&config.tracker_file)?,
@@ -114,7 +104,6 @@ async fn main() -> Result<()> {
         wallet_a: Arc::new(wallet_a),
         wallet_b: Arc::new(wallet_b),
         jito: jito.clone(),
-        alerter,
         tracker: tracker.clone(),
     });
 

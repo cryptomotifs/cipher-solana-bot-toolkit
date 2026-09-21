@@ -15,7 +15,6 @@ pub struct LauncherContext {
     pub http: Arc<reqwest::Client>,
     pub rpc: Arc<solana_client::nonblocking::rpc_client::RpcClient>,
     pub wallet_a: Arc<solana_sdk::signature::Keypair>,
-    pub wallet_b: Arc<solana_sdk::signature::Keypair>,
     pub jito: Arc<predator_execution::JitoSubmitter>,
     pub tracker: Arc<tokio::sync::Mutex<LauncherPnL>>,
 }
@@ -67,8 +66,7 @@ pub async fn run_pipeline_loop(ctx: Arc<LauncherContext>) {
 /// 4. Image generation
 /// 5. IPFS upload
 /// 6. Token creation (PumpPortal)
-/// 7. First buyer (Wallet B, separate TX)
-/// 8. Update tracker
+/// 7. Update tracker
 pub async fn run_launch_cycle(ctx: &LauncherContext) -> Result<Option<LaunchRecord>> {
     // 1. Budget check
     {
@@ -125,26 +123,7 @@ pub async fn run_launch_cycle(ctx: &LauncherContext) -> Result<Option<LaunchReco
         &ctx.config,
     ).await?;
 
-    // 7. First buyer (Wallet B, separate TX) — non-fatal if it fails
-    match crate::first_buyer::buy_separate(
-        &ctx.http,
-        &ctx.rpc,
-        &ctx.wallet_b,
-        &ctx.jito,
-        &record,
-        &ctx.config,
-    ).await {
-        Ok(sig) => {
-            record.buyer_tx = sig;
-            record.trader_buy_lamports = (ctx.config.trader_buy_sol * 1e9) as u64;
-            info!("Wallet B buy succeeded");
-        }
-        Err(e) => {
-            warn!("Wallet B buy failed (non-fatal): {}", e);
-        }
-    }
-
-    // 8. Update tracker
+    // 7. Update tracker
     {
         let mut tracker = ctx.tracker.lock().await;
         tracker.add_record(record.clone());

@@ -9,13 +9,16 @@ use reqwest::multipart;
 use crate::concept::TokenConcept;
 use crate::config::LauncherConfig;
 
+const PINATA_UPLOAD_URL: &str = "https://uploads.pinata.cloud/v3/files";
+const PINATA_PUBLIC_GATEWAY: &str = "https://gateway.pinata.cloud/ipfs";
+
 /// Upload token image + metadata to Pinata IPFS, returning the metadata URI.
 ///
 /// Two-step process:
 /// 1. Upload PNG image → get image CID
 /// 2. Upload metadata JSON (referencing image CID) → get metadata CID
 ///
-/// Returns: `https://ipfs.io/ipfs/{metadata_cid}`
+/// Returns: `https://gateway.pinata.cloud/ipfs/{metadata_cid}`
 pub async fn upload_to_pinata(
     http: &reqwest::Client,
     config: &LauncherConfig,
@@ -42,7 +45,7 @@ pub async fn upload_to_pinata(
         .text("name", image_filename);
 
     let resp = http
-        .post(predator_core::constants::PINATA_UPLOAD_URL)
+        .post(PINATA_UPLOAD_URL)
         .header("Authorization", format!("Bearer {}", config.pinata_jwt))
         .multipart(form)
         .send()
@@ -58,7 +61,7 @@ pub async fn upload_to_pinata(
     let image_cid = body["data"]["cid"]
         .as_str()
         .ok_or_else(|| anyhow!("No CID in Pinata response: {}", body))?;
-    let image_uri = format!("https://ipfs.io/ipfs/{}", image_cid);
+    let image_uri = format!("{}/{}", PINATA_PUBLIC_GATEWAY, image_cid);
     tracing::info!("Image uploaded: {}", image_uri);
 
     // Step 2: Upload metadata JSON
@@ -84,7 +87,7 @@ pub async fn upload_to_pinata(
         .text("name", meta_filename);
 
     let resp = http
-        .post(predator_core::constants::PINATA_UPLOAD_URL)
+        .post(PINATA_UPLOAD_URL)
         .header("Authorization", format!("Bearer {}", config.pinata_jwt))
         .multipart(form)
         .send()
@@ -100,7 +103,7 @@ pub async fn upload_to_pinata(
     let meta_cid = body["data"]["cid"]
         .as_str()
         .ok_or_else(|| anyhow!("No CID in Pinata metadata response: {}", body))?;
-    let metadata_uri = format!("https://ipfs.io/ipfs/{}", meta_cid);
+    let metadata_uri = format!("{}/{}", PINATA_PUBLIC_GATEWAY, meta_cid);
     tracing::info!("Metadata uploaded: {}", metadata_uri);
 
     Ok(metadata_uri)

@@ -21,7 +21,6 @@ mod concept;
 mod image_gen;
 mod ipfs;
 mod creator;
-mod first_buyer;
 mod sell_monitor;
 mod fee_collector;
 mod pipeline;
@@ -61,8 +60,6 @@ async fn main() -> Result<()> {
     let wallet_a = wallet::load_wallet()?;
     info!("Wallet A (creator): {}", wallet_a.pubkey());
 
-    let wallet_b = wallet::load_trader_wallet(&config)?;
-    info!("Wallet B (trader):  {}", wallet_b.pubkey());
 
     // Build shared resources
     let http = Arc::new(reqwest::Client::new());
@@ -77,12 +74,7 @@ async fn main() -> Result<()> {
 
     // Check balances
     let bal_a = rpc.get_balance(&wallet_a.pubkey()).await.unwrap_or(0);
-    let bal_b = rpc.get_balance(&wallet_b.pubkey()).await.unwrap_or(0);
-    info!(
-        "Balances: A={:.4} SOL, B={:.4} SOL",
-        bal_a as f64 / 1e9,
-        bal_b as f64 / 1e9
-    );
+    info!("Creator balance: {:.4} SOL", bal_a as f64 / 1e9);
 
     // Build Jito submitter
     let jito = Arc::new(predator_execution::JitoSubmitter::new());
@@ -102,7 +94,6 @@ async fn main() -> Result<()> {
         http: http.clone(),
         rpc: rpc.clone(),
         wallet_a: Arc::new(wallet_a),
-        wallet_b: Arc::new(wallet_b),
         jito: jito.clone(),
         tracker: tracker.clone(),
     });

@@ -88,7 +88,7 @@ impl Default for LauncherConfig {
             max_sol_per_day: 0.10,
             max_tokens_per_day: 2,
             kill_switch_balance_lamports: 200_000_000, // 0.20 SOL
-            trader_buy_sol: 0.02,
+            trader_buy_sol: 0.0,
             trader_wallet_path: String::new(),
             launch_interval_secs: 7200, // 2 hours
             fee_collect_interval_secs: 21600, // 6 hours

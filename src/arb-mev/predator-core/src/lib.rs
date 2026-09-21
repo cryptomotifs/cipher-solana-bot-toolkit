@@ -21,10 +21,6 @@ pub mod error;
 /// [VERIFIED 2026] PREDATOR_ARCHITECTURE_2026.md line 47: config.rs layout
 /// [VERIFIED 2026] code_structure_patterns_2026.md Section 6: Layered Config with Hot Reload
 pub mod config;
-/// MetricsRegistry: CachePadded<AtomicU64> counters, per-strategy P&L tracking.
-/// [VERIFIED 2026] PREDATOR_ARCHITECTURE_2026.md lines 54-56: MetricsRegistry layout
-/// [VERIFIED 2026] low_latency_dataflow_2026.md Section 4: CachePadded atomics
-pub mod metrics;
 /// SharedState struct: DashMap + ArcSwap for lock-free concurrent access.
 /// [VERIFIED 2026] PREDATOR_ARCHITECTURE_2026.md lines 57-58: SharedState layout
 /// [VERIFIED 2026] low_latency_dataflow_2026.md Section 2: DashMap + ArcSwap patterns
@@ -48,5 +44,4 @@ pub use config::{BotConfig, GeyserConfig};
 // GeyserConfig re-export backed by:
 // [VERIFIED 2026] PREDATOR_ARCHITECTURE_2026.md line 46: "Re-exports: BotConfig, BotError, Result, types"
 // [VERIFIED 2026] PREDATOR_ARCHITECTURE_2026.md line 1445: "[grpc] section"
-pub use metrics::{MetricsRegistry, MetricsSnapshot, StrategyId};
 pub use state::SharedState;
